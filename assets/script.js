@@ -39,10 +39,12 @@ function nextSequence() {
   var randomIndex = Math.floor(Math.random() * buttonColors.length);
   var randomChoosenColor = buttonColors[randomIndex]; // select random color from the colors array
   gamePattern.push(randomChoosenColor);
+
   $("#" + randomChoosenColor)
     .fadeIn(100)
     .fadeOut(100)
     .fadeIn(100);
+
   playSound(randomChoosenColor);
 }
 
@@ -54,19 +56,20 @@ function playSound(name) {
 // Animates button press
 function animatePress(currentColor) {
   $("#" + currentColor).addClass("pressed");
+
   setTimeout(function () {
     $("#" + currentColor).removeClass("pressed");
   }, 100);
 }
 
 // Checks the user's answer
-function checkAnswer(currentLevel) {
-  if (userClickedPattern[currentLevel] !== gamePattern[currentLevel]) { // it should take one input with the name currentLevel
+function checkAnswer(currentIndex) {
+  if (userClickedPattern[currentIndex] !== gamePattern[currentIndex]) { // color click by user at position not equal to gameseq at same pos 
     gameOver();
     return;
   }
 
-  if (userClickedPattern.length === gamePattern.length) {
+  if (userClickedPattern.length === gamePattern.length) { // length of color user click is equal to the game seq current level
     setTimeout(function () {
       nextSequence();
     }, 1000);
@@ -78,8 +81,10 @@ function gameOver() {
   playSound("wrong");
   $("#level-title").text("Game Over, Press Any Key to Restart");
   $("body").addClass("game-over");
+
   setTimeout(function () {
     $("body").removeClass("game-over");
   }, 200);
+  
   gameStarted = false;
 }
